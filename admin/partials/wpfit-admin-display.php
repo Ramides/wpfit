@@ -8,8 +8,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    WPFit
- * @subpackage WPFit/admin/partials
+ * @package    wpfit
+ * @subpackage wpfit/admin/partials
  */
 ?>
 

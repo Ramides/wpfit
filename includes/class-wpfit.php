@@ -9,8 +9,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    WPFit
- * @subpackage WPFit/includes
+ * @package    wpfit
+ * @subpackage wpfit/includes
  */
 
 /**
@@ -23,11 +23,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    WPFit
- * @subpackage WPFit/includes
+ * @package    wpfit
+ * @subpackage wpfit/includes
  * @author     Your Name <email@example.com>
  */
-class WPFit {
+class wpfit {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +35,7 @@ class WPFit {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      WPFit_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      wpfit_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -44,9 +44,9 @@ class WPFit {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $WPFit    The string used to uniquely identify this plugin.
+	 * @var      string    $wpfit    The string used to uniquely identify this plugin.
 	 */
-	protected $WPFit;
+	protected $wpfit;
 
 	/**
 	 * The current version of the plugin.
@@ -68,7 +68,7 @@ class WPFit {
 	 */
 	public function __construct() {
 
-		$this->WPFit = 'wpfit';
+		$this->wpfit = 'wpfit';
 		$this->version = '1.0.0';
 
 		$this->load_dependencies();
@@ -83,10 +83,10 @@ class WPFit {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - WPFit_Loader. Orchestrates the hooks of the plugin.
-	 * - WPFit_i18n. Defines internationalization functionality.
-	 * - WPFit_Admin. Defines all hooks for the admin area.
-	 * - WPFit_Public. Defines all hooks for the public side of the site.
+	 * - wpfit_Loader. Orchestrates the hooks of the plugin.
+	 * - wpfit_i18n. Defines internationalization functionality.
+	 * - wpfit_Admin. Defines all hooks for the admin area.
+	 * - wpfit_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -119,14 +119,14 @@ class WPFit {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wpfit-public.php';
 
-		$this->loader = new WPFit_Loader();
+		$this->loader = new wpfit_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the WPFit_i18n class in order to set the domain and to register the hook
+	 * Uses the wpfit_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -134,7 +134,7 @@ class WPFit {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new WPFit_i18n();
+		$plugin_i18n = new wpfit_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -149,10 +149,13 @@ class WPFit {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new WPFit_Admin( $this->get_WPFit(), $this->get_version() );
+		$plugin_admin = new wpfit_Admin( $this->get_wpfit(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		// Registers the custom post types
+		$this->loader->add_action( 'init', $plugin_admin, 'setup_post_type');
 
 	}
 
@@ -165,7 +168,7 @@ class WPFit {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new WPFit_Public( $this->get_WPFit(), $this->get_version() );
+		$plugin_public = new wpfit_Public( $this->get_wpfit(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -188,15 +191,15 @@ class WPFit {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_WPFit() {
-		return $this->WPFit;
+	public function get_wpfit() {
+		return $this->wpfit;
 	}
 
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    WPFit_Loader    Orchestrates the hooks of the plugin.
+	 * @return    wpfit_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

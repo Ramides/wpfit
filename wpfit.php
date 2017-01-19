@@ -10,10 +10,10 @@
  *
  * @link              
  * @since             1.0.0
- * @package           WPFit
+ * @package           wpfit
  *
  * @wordpress-plugin
- * Plugin Name:       WPFit
+ * Plugin Name:       wpfit
  * Plugin URI:        http://example.com/wpfit-uri/
  * Description:       Get fit with wordpress
  * Version:           1.0.0
@@ -36,20 +36,20 @@ if ( ! defined( 'WPINC' ) ) {
  */
 function activate_wpfit() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wpfit-activator.php';
-	WPFit_Activator::activate();
+	wpfit_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-wpfit-deactivator.php
  */
-function deactivate_WPFit() {
+function deactivate_wpfit() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wpfit-deactivator.php';
-	WPFit_Deactivator::deactivate();
+	wpfit_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_WPFit' );
-register_deactivation_hook( __FILE__, 'deactivate_WPFit' );
+register_activation_hook( __FILE__, 'activate_wpfit' );
+register_deactivation_hook( __FILE__, 'deactivate_wpfit' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -68,7 +68,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wpfit.php';
  */
 function run_wpfit() {
 
-	$plugin = new WPFit();
+	$plugin = new wpfit();
 	$plugin->run();
 
 }

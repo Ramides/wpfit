@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    WPFit
- * @subpackage WPFit/includes
+ * @package    wpfit
+ * @subpackage wpfit/includes
  */
 
 /**
@@ -17,11 +17,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    WPFit
- * @subpackage WPFit/includes
+ * @package    wpfit
+ * @subpackage wpfit/includes
  * @author     Your Name <email@example.com>
  */
-class WPFit_Loader {
+class wpfit_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

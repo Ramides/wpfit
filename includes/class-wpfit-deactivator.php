@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    WPFit
- * @subpackage WPFit/includes
+ * @package    wpfit
+ * @subpackage wpfit/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    WPFit
- * @subpackage WPFit/includes
+ * @package    wpfit
+ * @subpackage wpfit/includes
  * @author     Your Name <email@example.com>
  */
-class WPFit_Deactivator {
+class wpfit_Deactivator {
 
 	/**
 	 * Short Description. (use period)
@@ -30,7 +30,7 @@ class WPFit_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		flush_rewrite_rules();
 	}
 
 }

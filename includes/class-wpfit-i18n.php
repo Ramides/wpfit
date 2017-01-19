@@ -9,8 +9,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    WPFit
- * @subpackage WPFit/includes
+ * @package    wpfit
+ * @subpackage wpfit/includes
  */
 
 /**
@@ -20,11 +20,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    WPFit
- * @subpackage WPFit/includes
+ * @package    wpfit
+ * @subpackage wpfit/includes
  * @author     Your Name <email@example.com>
  */
-class WPFit_i18n {
+class wpfit_i18n {
 
 
 	/**

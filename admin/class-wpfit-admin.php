@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    WPFit
- * @subpackage WPFit/admin
+ * @package    wpfit
+ * @subpackage wpfit/admin
  */
 
 /**
@@ -16,20 +16,20 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    WPFit
- * @subpackage WPFit/admin
+ * @package    wpfit
+ * @subpackage wpfit/admin
  * @author     Your Name <email@example.com>
  */
-class WPFit_Admin {
+class wpfit_Admin {
 
 	/**
 	 * The ID of this plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $WPFit    The ID of this plugin.
+	 * @var      string    $wpfit    The ID of this plugin.
 	 */
-	private $WPFit;
+	private $wpfit;
 
 	/**
 	 * The version of this plugin.
@@ -44,12 +44,12 @@ class WPFit_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $WPFit       The name of this plugin.
+	 * @param      string    $wpfit       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $WPFit, $version ) {
+	public function __construct( $wpfit, $version ) {
 
-		$this->WPFit = $WPFit;
+		$this->wpfit = $wpfit;
 		$this->version = $version;
 
 	}
@@ -65,15 +65,15 @@ class WPFit_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in WPFit_Loader as all of the hooks are defined
+		 * defined in wpfit_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The WPFit_Loader will then create the relationship
+		 * The wpfit_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->WPFit, plugin_dir_url( __FILE__ ) . 'css/wpfit-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->wpfit, plugin_dir_url( __FILE__ ) . 'css/wpfit-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -88,15 +88,58 @@ class WPFit_Admin {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in WPFit_Loader as all of the hooks are defined
+		 * defined in wpfit_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The WPFit_Loader will then create the relationship
+		 * The wpfit_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->WPFit, plugin_dir_url( __FILE__ ) . 'js/wpfit-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->wpfit, plugin_dir_url( __FILE__ ) . 'js/wpfit-admin.js', array( 'jquery' ), $this->version, false );
+
+	}
+
+	/**
+	 * Register the custom post type recipe
+	 *
+	 * @since 	1.0.0
+	 */
+	public function setup_post_type() {
+		$labels = array(
+			'name'               => _x( 'Recipes', 'post type general name', 'wpfit' ),
+			'singular_name'      => _x( 'Recipe', 'post type singular name', 'wpfit' ),
+			'menu_name'          => _x( 'Recipes', 'admin menu', 'wpfit' ),
+			'name_admin_bar'     => _x( 'Recipe', 'add new on admin bar', 'wpfit' ),
+			'add_new'            => _x( 'Add New', 'recipe', 'wpfit' ),
+			'add_new_item'       => __( 'Add New Recipe', 'wpfit' ),
+			'new_item'           => __( 'New Recipe', 'wpfit' ),
+			'edit_item'          => __( 'Edit Recipe', 'wpfit' ),
+			'view_item'          => __( 'View Recipe', 'wpfit' ),
+			'all_items'          => __( 'All Recipe', 'wpfit' ),
+			'search_items'       => __( 'Search Recipes', 'wpfit' ),
+			'parent_item_colon'  => __( 'Parent Recipes:', 'wpfit' ),
+			'not_found'          => __( 'No recipes found.', 'wpfit' ),
+			'not_found_in_trash' => __( 'No recipes found in Trash.', 'wpfit' )
+		);
+
+		$args = array(
+			'labels'             => $labels,
+			'description'        => __( 'Get fit with wordpress.', 'wpfit' ),
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => 'wpfit' ),
+			'capability_type'    => 'post',
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_position'      => null,
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
+		);
+
+		register_post_type( 'recipe', $args );
 
 	}
 
