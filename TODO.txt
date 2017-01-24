@@ -1,0 +1,25 @@
+o Rezepte als Custom Post Type
+
+o Zutaten als Custom Post Type
+
+o Irgendwas um Rezepte parsen zu können, denn ich hätte gerne die Darstellung wie in einem Kochbuch
+  Links Zutaten     Rechts Rezepttext
+  jeweils
+  passend zum
+  Rezepttext        Weiter mit dem Text
+  Statt eine komplette Liste von Zutaten und den Rezepttext komplett seperat.
+  Denke dazu müssen die Zutaten im Text markiert werden und bei Darstellung geparsed.
+
+o Beim Speichern von bestehenden Rezepten oder Neuanlage ohne "Parsen" plausicheck
+
+o Druck.css(!!!)
+
+o In Zutaten Nährwerte
+
+o Möglichkeit Rezeptnährwerte (neu) zu berechnen -> Ausgabe fehlender Nährwerte im Backend
+
+o Shortcut zur Einbindung in Blogartikeln
+
+o Mir gefällt sehr gut der Rezepte-Quickfinder und das Regiser aus dem Goldenen von GU... automatisch generierbar?
+
+o Ist es möglich die Hauptzutat automatisch herauszufinden?
