@@ -106,6 +106,11 @@ class wpfit_Admin {
 	 * @since 	1.0.0
 	 */
 	public function setup_post_type() {
+		$this->setup_post_type_receipe();
+		$this->setup_post_type_ingredient();
+	}
+
+	private function setup_post_type_receipe() {
 		$labels = array(
 			'name'               => _x( 'Recipes', 'post type general name', 'wpfit' ),
 			'singular_name'      => _x( 'Recipe', 'post type singular name', 'wpfit' ),
@@ -116,7 +121,7 @@ class wpfit_Admin {
 			'new_item'           => __( 'New Recipe', 'wpfit' ),
 			'edit_item'          => __( 'Edit Recipe', 'wpfit' ),
 			'view_item'          => __( 'View Recipe', 'wpfit' ),
-			'all_items'          => __( 'All Recipe', 'wpfit' ),
+			'all_items'          => __( 'All Recipes', 'wpfit' ),
 			'search_items'       => __( 'Search Recipes', 'wpfit' ),
 			'parent_item_colon'  => __( 'Parent Recipes:', 'wpfit' ),
 			'not_found'          => __( 'No recipes found.', 'wpfit' ),
@@ -140,7 +145,43 @@ class wpfit_Admin {
 		);
 
 		register_post_type( 'recipe', $args );
+	}
 
+	private function setup_post_type_ingredient() {
+		$labels = array(
+			'name'               => _x( 'Ingredients', 'post type general name', 'wpfit' ),
+			'singular_name'      => _x( 'Ingredient', 'post type singular name', 'wpfit' ),
+			'menu_name'          => _x( 'Ingredients', 'admin menu', 'wpfit' ),
+			'name_admin_bar'     => _x( 'Ingredient', 'add new on admin bar', 'wpfit' ),
+			'add_new'            => _x( 'Add New', 'ingredient', 'wpfit' ),
+			'add_new_item'       => __( 'Add New Ingredient', 'wpfit' ),
+			'new_item'           => __( 'New Ingredient', 'wpfit' ),
+			'edit_item'          => __( 'Edit Ingredient', 'wpfit' ),
+			'view_item'          => __( 'View Ingredient', 'wpfit' ),
+			'all_items'          => __( 'All Ingredients', 'wpfit' ),
+			'search_items'       => __( 'Search Ingredients', 'wpfit' ),
+			'parent_item_colon'  => __( 'Parent Ingredients:', 'wpfit' ),
+			'not_found'          => __( 'No ingredients found.', 'wpfit' ),
+			'not_found_in_trash' => __( 'No ingredients found in Trash.', 'wpfit' )
+		);
+
+		$args = array(
+			'labels'             => $labels,
+			'description'        => __( 'Get fit with wordpress.', 'wpfit' ),
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => 'wpfit' ),
+			'capability_type'    => 'post',
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_position'      => null,
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
+		);
+
+		register_post_type( 'ingredient', $args );
 	}
 
 }
