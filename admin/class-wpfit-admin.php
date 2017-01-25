@@ -141,7 +141,7 @@ class wpfit_Admin {
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'menu_position'      => null,
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'revisions')
 		);
 
 		register_post_type( 'recipe', $args );
@@ -178,7 +178,7 @@ class wpfit_Admin {
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'menu_position'      => null,
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'revisions')
 		);
 
 		register_post_type( 'ingredient', $args );

@@ -1,6 +1,6 @@
 o Rezepte als Custom Post Type
 
-o Zutaten als Custom Post Type
+o Zutaten als Custom Post Type oder als Taxonomie?
 
 o Irgendwas um Rezepte parsen zu können, denn ich hätte gerne die Darstellung wie in einem Kochbuch
   Links Zutaten     Rechts Rezepttext
