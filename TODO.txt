@@ -1,6 +1,13 @@
-o Rezepte als Custom Post Type
+o Rezepte als Custom Post Type in verlinkte Bücher via Custom Field
+(add_meta_box:
+ - https://blog.cre8ive4ever.com/2014/06/funktion-add_meta_box-wie-man-eine-eigene-meta-box-erstellen-kann/
+ - https://www.sitepoint.com/adding-custom-meta-boxes-to-wordpress/
+ - https://developer.wordpress.org/reference/functions/add_meta_box/
+)
 
-o Zutaten als Custom Post Type oder als Taxonomie?
+o Zutaten als Custom Post Type
+
+o Bücher als Custom Post Type
 
 o Irgendwas um Rezepte parsen zu können, denn ich hätte gerne die Darstellung wie in einem Kochbuch
   Links Zutaten     Rechts Rezepttext

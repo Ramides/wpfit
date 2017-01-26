@@ -108,80 +108,92 @@ class wpfit_Admin {
 	public function setup_post_type() {
 		$this->setup_post_type_receipe();
 		$this->setup_post_type_ingredient();
+		$this->setup_post_type_book();
 	}
 
 	private function setup_post_type_receipe() {
-		$labels = array(
-			'name'               => _x( 'Recipes', 'post type general name', 'wpfit' ),
-			'singular_name'      => _x( 'Recipe', 'post type singular name', 'wpfit' ),
-			'menu_name'          => _x( 'Recipes', 'admin menu', 'wpfit' ),
-			'name_admin_bar'     => _x( 'Recipe', 'add new on admin bar', 'wpfit' ),
-			'add_new'            => _x( 'Add New', 'recipe', 'wpfit' ),
-			'add_new_item'       => __( 'Add New Recipe', 'wpfit' ),
-			'new_item'           => __( 'New Recipe', 'wpfit' ),
-			'edit_item'          => __( 'Edit Recipe', 'wpfit' ),
-			'view_item'          => __( 'View Recipe', 'wpfit' ),
-			'all_items'          => __( 'All Recipes', 'wpfit' ),
-			'search_items'       => __( 'Search Recipes', 'wpfit' ),
-			'parent_item_colon'  => __( 'Parent Recipes:', 'wpfit' ),
-			'not_found'          => __( 'No recipes found.', 'wpfit' ),
-			'not_found_in_trash' => __( 'No recipes found in Trash.', 'wpfit' )
-		);
-
 		$args = array(
-			'labels'             => $labels,
-			'description'        => __( 'Get fit with wordpress.', 'wpfit' ),
-			'public'             => true,
-			'publicly_queryable' => true,
-			'show_ui'            => true,
-			'show_in_menu'       => true,
-			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'wpfit' ),
-			'capability_type'    => 'post',
-			'has_archive'        => true,
-			'hierarchical'       => false,
-			'menu_position'      => null,
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'revisions')
+			'label'				=> __('Rezepte', 'wpfit'),
+			// Name of the post type shown in the menu. Usually plural. Default is value of $labels['name'].
+
+			// 'labels'			=> $labels,
+			// An array of labels for this post type. If not set, post labels are inherited for non-hierarchical types and page labels for hierarchical ones. See
+			// get_post_type_labels() for a full list of supported labels.
+
+			'description'		=> __('Kochrezepte', 'wpfit'),
+			// A short descriptive summary of what the post type is.
+
+			'public'			=> false,
+			// Whether a post type is intended for use publicly either via the admin interface or by front-end
+			// users. While the default settings of $exclude_from_search, $publicly_queryable, $show_ui, and
+			// $show_in_nav_menus are inherited from public, each does not rely on this relationship and controls
+			// a very specific intention. Default false.
+
+			'show_ui'			=> true,
+			// Whether to generate and allow a UI for managing this post type in the admin. Default is value of $public.
+
+			// 'show_in_rest'		=> true,
+			// Whether to add the post type route in the REST API 'wp/v2' namespace.
+
+			'menu_icon'			=> 'dashicons-carrot',
+			// (string) The url to the icon to be used for this menu. Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme --
+			// this should begin with 'data:image/svg+xml;base64,'. Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'. Pass 'none'
+			// to leave div.wp-menu-image empty so an icon can be added via CSS. Defaults to use the posts icon.
+
+			'supports'			=> array('title','editor','revisions','thumbnail','custom-fields'),
+			// Core feature(s) the post type supports. Serves as an alias for calling add_post_type_support() directly. Core features include 'title', 'editor', 'comments', 'revisions', 'trackbacks',
+			// 'author','excerpt', 'page-attributes', 'thumbnail', 'custom-fields', and 'post-formats'. Additionally, the 'revisions' feature dictates whether the post type will store revisions, and
+			// the 'comments' feature dictates whether the comments count will show on the edit screen. Defaults is an array containing 'title' and 'editor'.
+
+			'taxonomies'		=> array('Kochbuch'),
+			// An array of taxonomy identifiers that will be registered for the post type. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
 		);
 
 		register_post_type( 'recipe', $args );
+
+		register_taxonomy(
+			'source',
+			'recipe',
+        	array(
+				'label' => __('Quelle'),
+				'hierarchical'	=> true
+			)
+		);
+
+		register_taxonomy(
+			'categories',
+			'recipe',
+        	array(
+				'label' => __('Kategorien'),
+				'hierarchical'	=> true
+			)
+		);
+
+
 	}
 
 	private function setup_post_type_ingredient() {
-		$labels = array(
-			'name'               => _x( 'Ingredients', 'post type general name', 'wpfit' ),
-			'singular_name'      => _x( 'Ingredient', 'post type singular name', 'wpfit' ),
-			'menu_name'          => _x( 'Ingredients', 'admin menu', 'wpfit' ),
-			'name_admin_bar'     => _x( 'Ingredient', 'add new on admin bar', 'wpfit' ),
-			'add_new'            => _x( 'Add New', 'ingredient', 'wpfit' ),
-			'add_new_item'       => __( 'Add New Ingredient', 'wpfit' ),
-			'new_item'           => __( 'New Ingredient', 'wpfit' ),
-			'edit_item'          => __( 'Edit Ingredient', 'wpfit' ),
-			'view_item'          => __( 'View Ingredient', 'wpfit' ),
-			'all_items'          => __( 'All Ingredients', 'wpfit' ),
-			'search_items'       => __( 'Search Ingredients', 'wpfit' ),
-			'parent_item_colon'  => __( 'Parent Ingredients:', 'wpfit' ),
-			'not_found'          => __( 'No ingredients found.', 'wpfit' ),
-			'not_found_in_trash' => __( 'No ingredients found in Trash.', 'wpfit' )
-		);
-
 		$args = array(
-			'labels'             => $labels,
-			'description'        => __( 'Get fit with wordpress.', 'wpfit' ),
-			'public'             => true,
-			'publicly_queryable' => true,
-			'show_ui'            => true,
-			'show_in_menu'       => true,
-			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'wpfit' ),
-			'capability_type'    => 'post',
-			'has_archive'        => true,
-			'hierarchical'       => false,
-			'menu_position'      => null,
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'revisions')
+			'label'				=> __('Zutaten', 'wpfit'),
+			'public'			=> false,
+			'show_ui'			=> true,
+			'menu_icon'			=> 'dashicons-carrot',
+			'supports'			=> array('title','editor','revisions','thumbnail','custom-fields'),
 		);
 
 		register_post_type( 'ingredient', $args );
+	}
+
+	private function setup_post_type_book() {
+		$args = array(
+			'label'				=> __('Bücher', 'wpfit'),
+			'public'			=> false,
+			'show_ui'			=> true,
+			'menu_icon'			=> 'dashicons-book',
+			'supports'			=> array('title','editor','revisions','thumbnail','custom-fields'),
+		);
+
+		register_post_type( 'book', $args );
 	}
 
 }
