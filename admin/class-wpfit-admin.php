@@ -111,6 +111,45 @@ class wpfit_Admin {
 		$this->setup_post_type_book();
 	}
 
+	/**
+	 * Register the custom meta box
+	 * 
+	 * @since 	1.0.0
+	 */
+	public function setup_meta_box() {
+		add_meta_box(
+			'book_meta_box',
+			__('Zusätzliche Angaben', 'wpfit'),
+			array($this, "meta_box_markup"),
+			"book",
+			"normal",
+			"high",
+			null);
+	}
+
+	public function meta_box_markup() {
+		wp_nonce_field(basename(__FILE__), "meta-box-nonce");
+    	?>
+		<div>
+			<label for="Amazon"><?= __('Amazon') ?></label>
+            <input name="Amazon" type="text" value="<?php echo get_post_meta(get_the_ID(), "Amazon", true); ?>">
+			<br>
+			<label for="Buecherei"><?= __('Bücherei') ?></label>
+            <input name="Buecherei" type="text" value="<?php echo get_post_meta(get_the_ID(), "Bücherei", true); ?>">
+			<br>
+			<label for="Seitenanzahl"><?= __('Seitenanzahl') ?></label>
+            <input name="Seitenanzahl" type="text" value="<?php echo get_post_meta(get_the_ID(), "Seitenanzahl", true); ?>">
+			<br>
+			<label for="Auflage"><?= __('Auflage') ?></label>
+            <input name="Auflage" type="text" value="<?php echo get_post_meta(get_the_ID(), "Auflage", true); ?>">
+			<br>
+			<label for="ISBN"><?= __('ISBN') ?></label>
+            <input name="ISBN" type="text" value="<?php echo get_post_meta(get_the_ID(), "ISBN", true); ?>">
+
+        </div>
+    	<?php
+	}
+
 	private function setup_post_type_receipe() {
 		$args = array(
 			'label'				=> __('Rezepte', 'wpfit'),
@@ -190,7 +229,7 @@ class wpfit_Admin {
 			'public'			=> false,
 			'show_ui'			=> true,
 			'menu_icon'			=> 'dashicons-book',
-			'supports'			=> array('title','revisions','thumbnail','custom-fields'),
+			'supports'			=> array('title','revisions','thumbnail'),
 		);
 
 		register_post_type( 'book', $args );
