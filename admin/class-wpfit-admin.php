@@ -190,10 +190,26 @@ class wpfit_Admin {
 			'public'			=> false,
 			'show_ui'			=> true,
 			'menu_icon'			=> 'dashicons-book',
-			'supports'			=> array('title','editor','revisions','thumbnail','custom-fields'),
+			'supports'			=> array('title','revisions','thumbnail','custom-fields'),
 		);
 
 		register_post_type( 'book', $args );
+
+		register_taxonomy(
+			'publisher',
+			'book',
+        	array(
+				'label' => __('Verlag')
+			)
+		);
+
+		register_taxonomy(
+			'language',
+			'book',
+        	array(
+				'label' => __('Sprache')
+			)
+		);
 	}
 
 }
