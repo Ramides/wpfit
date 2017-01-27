@@ -209,7 +209,7 @@ class wpfit_Admin {
 			'description'		=> __('Kochrezepte', 'wpfit'),
 			// A short descriptive summary of what the post type is.
 
-			'public'			=> false,
+			'public'			=> true,
 			// Whether a post type is intended for use publicly either via the admin interface or by front-end
 			// users. While the default settings of $exclude_from_search, $publicly_queryable, $show_ui, and
 			// $show_in_nav_menus are inherited from public, each does not rely on this relationship and controls
@@ -233,6 +233,9 @@ class wpfit_Admin {
 
 			'taxonomies'		=> array('Kochbuch'),
 			// An array of taxonomy identifiers that will be registered for the post type. Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
+
+			'has_archive'		=> true,
+			// Enables post type archives. Will use $post_type as archive slug by default. Default: false
 		);
 
 		register_post_type( 'recipe', $args );
@@ -261,10 +264,11 @@ class wpfit_Admin {
 	private function setup_post_type_ingredient() {
 		$args = array(
 			'label'				=> __('Zutaten', 'wpfit'),
-			'public'			=> false,
+			'public'			=> true,
 			'show_ui'			=> true,
 			'menu_icon'			=> 'dashicons-carrot',
 			'supports'			=> array('title','editor','revisions','thumbnail','custom-fields'),
+			'has_archive'		=> true,
 		);
 
 		register_post_type( 'ingredient', $args );
@@ -273,10 +277,11 @@ class wpfit_Admin {
 	private function setup_post_type_book() {
 		$args = array(
 			'label'				=> __('Bücher', 'wpfit'),
-			'public'			=> false,
+			'public'			=> true,
 			'show_ui'			=> true,
 			'menu_icon'			=> 'dashicons-book',
 			'supports'			=> array('title','revisions','thumbnail'),
+			'has_archive'		=> true,
 		);
 
 		register_post_type( 'book', $args );
