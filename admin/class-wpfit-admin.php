@@ -130,24 +130,71 @@ class wpfit_Admin {
 	public function meta_box_markup() {
 		wp_nonce_field(basename(__FILE__), "meta-box-nonce");
     	?>
-		<div>
-			<label for="Amazon"><?= __('Amazon') ?></label>
-            <input name="Amazon" type="text" value="<?php echo get_post_meta(get_the_ID(), "Amazon", true); ?>">
+		<div class="wpfit-meta-box-100">
+			<label for="amazon"><?= __('Amazon') ?></label>
+            <input name="amazon" type="text" value="<?php echo get_post_meta(get_the_ID(), "amazon", true); ?>">
 			<br>
-			<label for="Buecherei"><?= __('Bücherei') ?></label>
-            <input name="Buecherei" type="text" value="<?php echo get_post_meta(get_the_ID(), "Bücherei", true); ?>">
+			<label for="buecherei"><?= __('Bücherei') ?></label>
+            <input name="buecherei" type="text" value="<?php echo get_post_meta(get_the_ID(), "buecherei", true); ?>">
 			<br>
-			<label for="Seitenanzahl"><?= __('Seitenanzahl') ?></label>
-            <input name="Seitenanzahl" type="text" value="<?php echo get_post_meta(get_the_ID(), "Seitenanzahl", true); ?>">
+			<label for="seitenanzahl"><?= __('Seitenanzahl') ?></label>
+            <input name="seitenanzahl" type="text" value="<?php echo get_post_meta(get_the_ID(), "seitenanzahl", true); ?>">
 			<br>
-			<label for="Auflage"><?= __('Auflage') ?></label>
-            <input name="Auflage" type="text" value="<?php echo get_post_meta(get_the_ID(), "Auflage", true); ?>">
+			<label for="auflage"><?= __('Auflage') ?></label>
+            <input name="auflage" type="text" value="<?php echo get_post_meta(get_the_ID(), "auflage", true); ?>">
 			<br>
-			<label for="ISBN"><?= __('ISBN') ?></label>
-            <input name="ISBN" type="text" value="<?php echo get_post_meta(get_the_ID(), "ISBN", true); ?>">
+			<label for="isbn"><?= __('ISBN') ?></label>
+            <input name="isbn" type="text" value="<?php echo get_post_meta(get_the_ID(), "isbn", true); ?>">
 
         </div>
     	<?php
+	}
+
+	function save_custom_meta_box($post_id, $post, $update)
+	{
+		if (!isset($_POST["meta-box-nonce"]) || !wp_verify_nonce($_POST["meta-box-nonce"], basename(__FILE__)))
+			return $post_id;
+
+		if(!current_user_can("edit_post", $post_id))
+			return $post_id;
+
+		if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
+			return $post_id;
+
+		$slug = "book";
+		if($slug != $post->post_type)
+			return $post_id;
+
+		$meta_box = "";
+		if(isset($_POST["amazon"])) {
+			$meta_box = $_POST["amazon"];
+		}   
+		update_post_meta($post_id, "amazon", $meta_box);
+
+		$meta_box = "";
+		if(isset($_POST["buecherei"])) {
+			$meta_box = $_POST["buecherei"];
+		}   
+		update_post_meta($post_id, "buecherei", $meta_box);
+
+		$meta_box = "";
+		if(isset($_POST["seitenanzahl"])) {
+			$meta_box = $_POST["seitenanzahl"];
+		}   
+		update_post_meta($post_id, "seitenanzahl", $meta_box);
+
+		$meta_box = "";
+		if(isset($_POST["auflage"])) {
+			$meta_box = $_POST["auflage"];
+		}   
+		update_post_meta($post_id, "auflage", $meta_box);
+
+		$meta_box = "";
+		if(isset($_POST["isbn"])) {
+			$meta_box = $_POST["isbn"];
+		}   
+		update_post_meta($post_id, "isbn", $meta_box);
+
 	}
 
 	private function setup_post_type_receipe() {

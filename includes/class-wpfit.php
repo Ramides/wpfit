@@ -157,6 +157,7 @@ class wpfit {
 		// Registers the custom post types
 		$this->loader->add_action( 'init', $plugin_admin, 'setup_post_type');
 		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'setup_meta_box');
+		$this->loader->add_action( 'save_post', $plugin_admin, 'save_custom_meta_box', 10, 3);
 
 	}
 
