@@ -117,41 +117,44 @@ class wpfit_Admin {
 	 * @since 	1.0.0
 	 */
 	public function setup_meta_box() {
-		add_meta_box(
-			'book_meta_box',
-			__('Zusätzliche Angaben', 'wpfit'),
-			array($this, "meta_box_markup"),
-			"book",
-			"normal",
-			"high",
-			null);
+		add_meta_box('book_meta_box', __('Zusätzliche Angaben', 'wpfit'), array($this, 'metabox_markup_book'), 'book', 'normal', 'high', null);
+		add_meta_box('ingredient_meta_box', __('Zusätzliche Angaben', 'wpfit'), array($this, 'meta_box_markup_ingredient'), 'ingredient', 'normal', 'high', null);
 	}
 
-	public function meta_box_markup() {
+	private function meta_box_markup($name, $labeltext) {
+		?>
+		<label for="<?= $name ?>"><?= __($labeltext) ?></label>
+		<input name="<?= $name ?>" type="text" value="<?php echo get_post_meta(get_the_ID(), $name, true); ?>">
+		<?php
+	}
+
+	public function metabox_markup_book() {
 		wp_nonce_field(basename(__FILE__), "meta-box-nonce");
     	?>
 		<div class="wpfit-meta-box-100">
-			<label for="amazon"><?= __('Amazon') ?></label>
-            <input name="amazon" type="text" value="<?php echo get_post_meta(get_the_ID(), "amazon", true); ?>">
-			<br>
-			<label for="buecherei"><?= __('Bücherei') ?></label>
-            <input name="buecherei" type="text" value="<?php echo get_post_meta(get_the_ID(), "buecherei", true); ?>">
-			<br>
-			<label for="seitenanzahl"><?= __('Seitenanzahl') ?></label>
-            <input name="seitenanzahl" type="text" value="<?php echo get_post_meta(get_the_ID(), "seitenanzahl", true); ?>">
-			<br>
-			<label for="auflage"><?= __('Auflage') ?></label>
-            <input name="auflage" type="text" value="<?php echo get_post_meta(get_the_ID(), "auflage", true); ?>">
-			<br>
-			<label for="isbn"><?= __('ISBN') ?></label>
-            <input name="isbn" type="text" value="<?php echo get_post_meta(get_the_ID(), "isbn", true); ?>">
-
+			<?php $this->meta_box_markup('amazon',		'Amazon'); ?><br>
+			<?php $this->meta_box_markup('buecherei',	'Bücherei'); ?><br>
+			<?php $this->meta_box_markup('seitenanzahl','Seitenanzahl'); ?><br>
+			<?php $this->meta_box_markup('auflage',		'Auflage'); ?><br>
+			<?php $this->meta_box_markup('isbn',		'ISBN'); ?>
         </div>
     	<?php
 	}
 
-	function save_custom_meta_box($post_id, $post, $update)
-	{
+	public function meta_box_markup_ingredient() {
+		wp_nonce_field(basename(__FILE__), "meta-box-nonce");
+    	?>
+		<div class="wpfit-meta-box-100">
+			<?php $this->meta_box_markup('kalorien',	'Kalorien'); ?><br>
+			<?php $this->meta_box_markup('protein',		'Protein'); ?><br>
+			<?php $this->meta_box_markup('kohlenhydrate','Kohlenhydrate'); ?><br>
+			<?php $this->meta_box_markup('zucker',		'davon Zucker'); ?><br>
+			<?php $this->meta_box_markup('fett',		'Fett'); ?>
+        </div>
+    	<?php
+	}
+
+	function save_custom_meta_box($post_id, $post, $update) {
 		if (!isset($_POST["meta-box-nonce"]) || !wp_verify_nonce($_POST["meta-box-nonce"], basename(__FILE__)))
 			return $post_id;
 
@@ -161,40 +164,34 @@ class wpfit_Admin {
 		if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
 			return $post_id;
 
-		$slug = "book";
-		if($slug != $post->post_type)
-			return $post_id;
+		switch($post->post_type) {
+			case "book":
+				$this->update_post_meta($post_id, "amazon");
+				$this->update_post_meta($post_id, "buecherei");
+				$this->update_post_meta($post_id, "seitenanzahl");
+				$this->update_post_meta($post_id, "auflage");
+				$this->update_post_meta($post_id, "isbn");
+				break;
 
-		$meta_box = "";
-		if(isset($_POST["amazon"])) {
-			$meta_box = $_POST["amazon"];
+			case "ingredient":
+				$this->update_post_meta($post_id, "kalorien");
+				$this->update_post_meta($post_id, "protein");
+				$this->update_post_meta($post_id, "kohlenhydrate");
+				$this->update_post_meta($post_id, "zucker");
+				$this->update_post_meta($post_id, "fett");
+				break;
+
+			default:
+				return $post_id;
+		}
+	}
+
+	private function update_post_meta($post_id, $name) {
+		$value = "";
+		if(isset($_POST[$name])) {
+			$value = $_POST[$name];
 		}   
-		update_post_meta($post_id, "amazon", $meta_box);
-
-		$meta_box = "";
-		if(isset($_POST["buecherei"])) {
-			$meta_box = $_POST["buecherei"];
-		}   
-		update_post_meta($post_id, "buecherei", $meta_box);
-
-		$meta_box = "";
-		if(isset($_POST["seitenanzahl"])) {
-			$meta_box = $_POST["seitenanzahl"];
-		}   
-		update_post_meta($post_id, "seitenanzahl", $meta_box);
-
-		$meta_box = "";
-		if(isset($_POST["auflage"])) {
-			$meta_box = $_POST["auflage"];
-		}   
-		update_post_meta($post_id, "auflage", $meta_box);
-
-		$meta_box = "";
-		if(isset($_POST["isbn"])) {
-			$meta_box = $_POST["isbn"];
-		}   
-		update_post_meta($post_id, "isbn", $meta_box);
-
+		update_post_meta($post_id, $name, $value);
 	}
 
 	private function setup_post_type_receipe() {
@@ -226,7 +223,7 @@ class wpfit_Admin {
 			// this should begin with 'data:image/svg+xml;base64,'. Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'. Pass 'none'
 			// to leave div.wp-menu-image empty so an icon can be added via CSS. Defaults to use the posts icon.
 
-			'supports'			=> array('title','editor','revisions','thumbnail','custom-fields'),
+			'supports'			=> array('title','editor','revisions','thumbnail'),
 			// Core feature(s) the post type supports. Serves as an alias for calling add_post_type_support() directly. Core features include 'title', 'editor', 'comments', 'revisions', 'trackbacks',
 			// 'author','excerpt', 'page-attributes', 'thumbnail', 'custom-fields', and 'post-formats'. Additionally, the 'revisions' feature dictates whether the post type will store revisions, and
 			// the 'comments' feature dictates whether the comments count will show on the edit screen. Defaults is an array containing 'title' and 'editor'.
@@ -267,7 +264,7 @@ class wpfit_Admin {
 			'public'			=> true,
 			'show_ui'			=> true,
 			'menu_icon'			=> 'dashicons-carrot',
-			'supports'			=> array('title','editor','revisions','thumbnail','custom-fields'),
+			'supports'			=> array('title','revisions','thumbnail'),
 			'has_archive'		=> true,
 		);
 
